@@ -32,7 +32,19 @@ func (s *ArtistService) GetInfo(name string) (ArtistInfo, *http.Response, error)
 	path := fmt.Sprintf("artists/%v.%v?app_id=%v", name, format, appId)
 	resp, err := s.sling.New().Get(path).Receive(artistInfo, apiError)
 	if err == nil {
-		// todo err = apiError
+		err = apiError
 	}
 	return *artistInfo, resp, err
+}
+
+// Returns events for a single artists.
+func (s *ArtistService) GetEvents(name string) (Event, *http.Response, error) {
+	event := new(Event)
+	apiError := new(ApiError)
+	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", name, format, appId)
+	resp, err := s.sling.New().Get(path).Receive(event, apiError)
+	if err == nil {
+		err = apiError
+	}
+	return *event, resp, err
 }

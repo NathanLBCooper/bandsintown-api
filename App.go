@@ -7,7 +7,9 @@ import(
 
 func main() {
 	client := apiclient.NewClient(nil)
-	result := apiclient.ArtistInfo{}
-	result, _, _ = client.ArtistService.GetInfo("Weezer")
+	var result apiclient.Event
+	var err error
+	result, _, err = client.ArtistService.GetEvents("Weezer")
 	fmt.Println(result)
+	fmt.Println(err)
 }
