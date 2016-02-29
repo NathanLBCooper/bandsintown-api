@@ -7,6 +7,6 @@ type Venue struct{
 	Region string `json:"region"`
 	Country string `json:"country"`
 	Url string `json:"url"`
-	Latitude int `json:"latitude"`
-	Longitude int `json:"longitude"`
+	Latitude float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
 }
