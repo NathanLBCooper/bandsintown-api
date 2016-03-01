@@ -2,18 +2,19 @@ package apiclient
 
 import(
 	"time"
+	"bandsintown-api/apiclient/customtimes"
 )
 
 // Event with CustomDate serialisation
 type deserialisableEvent struct{
 	Id int `json:"id"`
 	Url string `json:"url"`
-	Datetime ResponseCustomTime `json:"datetime"`
+	Datetime customtimes.ResponseCustomTime `json:"datetime"`
 	TicketUrl string `json:"ticket_url"`
 	Artists []Artist `json:"artists"`
 	Status string `json:"status"`// todo enum
 	TicketStatus string `json:"ticket_status"`// todo enum
-	OnSaleDatetime ResponseCustomTime `json:"on_sale_datetime"`
+	OnSaleDatetime customtimes.ResponseCustomTime `json:"on_sale_datetime"`
 }
 
 // Event with normal time.Time (RFC 3339) serialisation
