@@ -6,31 +6,28 @@ import(
 	"github.com/dghubble/sling"
 )
 
-const baseURL = "http://api.bandsintown.com"
-const format = "json"
-const appId = "some_api_id"
-const jsonTimeFormat = "2006-01-02T15:04:05"
-
 // ArtistService provides methods for Artist related requests
 type ArtistService struct {
-	sling *sling.Sling
+	AppId string
+	Sling *sling.Sling
 }
 
 // NewIssueService returns a new IssueService.
-func NewArtistService(httpClient *http.Client) *ArtistService {
+func NewArtistService(httpClient *http.Client, baseUrl string, appId string) *ArtistService {
 	return &ArtistService{
-		sling: sling.New().Client(httpClient).Base(baseURL),
+		Sling: sling.New().Client(httpClient).Base(baseUrl),
+		AppId: appId,
 	}
 }
 
 // Returns basic information for a single artist, including the number of upcoming events.
 // Useful in determining if an artist is on tour without requesting the event data.
 // https://www.bandsintown.com/api/1.0/requests#artists-get
-func (s *ArtistService) GetInfo(name string) (ArtistInfo, *http.Response, error) {
+func (service *ArtistService) GetInfo(name string) (ArtistInfo, *http.Response, error) {
 	artistInfo := new(ArtistInfo)
 	apiError := new(ApiError)
-	path := fmt.Sprintf("artists/%v.%v?app_id=%v", name, format, appId)
-	resp, err := s.sling.New().Get(path).Receive(artistInfo, apiError)
+	path := fmt.Sprintf("artists/%v.%v?app_id=%v", name, format, service.AppId)
+	resp, err := service.Sling.New().Get(path).Receive(artistInfo, apiError)
 	if err == nil {
 		err = apiError
 	}
@@ -38,11 +35,12 @@ func (s *ArtistService) GetInfo(name string) (ArtistInfo, *http.Response, error)
 }
 
 // Returns events for a single artist.
-func (s *ArtistService) GetEvents(name string) ([]Event, *http.Response, error) {
+// https://www.bandsintown.com/api/1.0/requests#artists-events
+func (service *ArtistService) GetEvents(name string) ([]Event, *http.Response, error) {
 	deserialisableEvents := new([]deserialisableEvent)
 	apiError := new(ApiError)
-	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", name, format, appId)
-	resp, err := s.sling.New().Get(path).Receive(deserialisableEvents, apiError)
+	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", name, format, service.AppId)
+	resp, err := service.Sling.New().Get(path).Receive(deserialisableEvents, apiError)
 
 	if err == nil {
 		err = apiError
