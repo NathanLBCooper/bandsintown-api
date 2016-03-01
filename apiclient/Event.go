@@ -8,12 +8,12 @@ import(
 type deserialisableEvent struct{
 	Id int `json:"id"`
 	Url string `json:"url"`
-	Datetime CustomTime `json:"datetime"`
+	Datetime ResponseCustomTime `json:"datetime"`
 	TicketUrl string `json:"ticket_url"`
 	Artists []Artist `json:"artists"`
 	Status string `json:"status"`// todo enum
 	TicketStatus string `json:"ticket_status"`// todo enum
-	OnSaleDatetime CustomTime `json:"on_sale_datetime"`
+	OnSaleDatetime ResponseCustomTime `json:"on_sale_datetime"`
 }
 
 // Event with normal time.Time (RFC 3339) serialisation

@@ -12,7 +12,7 @@ type ArtistService struct {
 	Sling *sling.Sling
 }
 
-// NewIssueService returns a new IssueService.
+// NewArtistService returns a new ArtistService.
 func NewArtistService(httpClient *http.Client, baseUrl string, appId string) *ArtistService {
 	return &ArtistService{
 		Sling: sling.New().Client(httpClient).Base(baseUrl),

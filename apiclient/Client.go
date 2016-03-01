@@ -14,6 +14,7 @@ const appId = "some_api_id" // appId
 type Client struct {
 	// Service Implementations
 	ArtistService *ArtistService
+	EventService *EventService
 	// todo, more services
 }
 
@@ -21,5 +22,6 @@ type Client struct {
 func NewClient(httpClient *http.Client) *Client {
 	return &Client{
 		ArtistService: NewArtistService(httpClient, baseUrl, appId),
+		EventService: NewEventService(httpClient, baseUrl, appId),
 	}
 }

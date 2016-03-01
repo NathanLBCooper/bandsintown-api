@@ -4,26 +4,26 @@ import(
 	"time"
 )
 
-type CustomTime struct {
+type ResponseCustomTime struct {
 	time.Time
 }
 
-const customTimeFormat = "2006-01-02T15:04:05"
+const responseCustomTimeFormat = "2006-01-02T15:04:05"
 
-func (ct *CustomTime) UnmarshalJSON(b []byte) (err error) {
+func (ct *ResponseCustomTime) UnmarshalJSON(b []byte) (err error) {
 	if b[0] == '"' && b[len(b)-1] == '"' {
 		b = b[1 : len(b)-1]
 	}
 	if string(b) == "null" {
 		return nil
 	}
-	ct.Time, err = time.Parse(customTimeFormat, string(b))
+	ct.Time, err = time.Parse(responseCustomTimeFormat, string(b))
 	return
 }
 
-func (ct *CustomTime) MarshalJSON() ([]byte, error) {
+func (ct *ResponseCustomTime) MarshalJSON() ([]byte, error) {
 	if(ct == nil){
 		return []byte("null"), nil
 	}
-	return []byte(ct.Time.Format(customTimeFormat)), nil
+	return []byte(ct.Time.Format(responseCustomTimeFormat)), nil
 }
