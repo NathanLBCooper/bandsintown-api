@@ -9,7 +9,7 @@ import(
 const baseURL = "http://api.bandsintown.com"
 const format = "json"
 const appId = "some_api_id"
-
+const jsonTimeFormat = "2006-01-02T15:04:05"
 
 // ArtistService provides methods for Artist related requests
 type ArtistService struct {
@@ -37,14 +37,16 @@ func (s *ArtistService) GetInfo(name string) (ArtistInfo, *http.Response, error)
 	return *artistInfo, resp, err
 }
 
-// Returns events for a single artists.
+// Returns events for a single artist.
 func (s *ArtistService) GetEvents(name string) ([]Event, *http.Response, error) {
-	events := new([]Event)
+	deserialisableEvents := new([]deserialisableEvent)
 	apiError := new(ApiError)
 	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", name, format, appId)
-	resp, err := s.sling.New().Get(path).Receive(events, apiError)
+	resp, err := s.sling.New().Get(path).Receive(deserialisableEvents, apiError)
+
 	if err == nil {
 		err = apiError
 	}
-	return *events, resp, err
+
+	return newEvents(*deserialisableEvents), resp, err
 }
