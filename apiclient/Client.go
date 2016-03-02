@@ -6,10 +6,6 @@ import(
 
 const format = "json"
 
-// todo remove
-const baseUrl = "http://api.bandsintown.com" //baseUrl
-const appId = "some_api_id" // appId
-
 // Client for the Bands in Town API
 type Client struct {
 	// Service Implementations
@@ -19,7 +15,7 @@ type Client struct {
 }
 
 // NewClient returns a new Client
-func NewClient(httpClient *http.Client) *Client {
+func NewClient(httpClient *http.Client, baseUrl string, appId string) *Client {
 	return &Client{
 		ArtistService: NewArtistService(httpClient, baseUrl, appId),
 		EventService: NewEventService(httpClient, baseUrl, appId),

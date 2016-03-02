@@ -4,6 +4,7 @@ import(
 	"fmt"
 	"net/http"
 	"github.com/dghubble/sling"
+	"bandsintown-api/datatypes"
 )
 
 // EventService provides methods for Event related requests
@@ -24,19 +25,16 @@ func NewEventService(httpClient *http.Client, baseUrl string, appId string) *Eve
 // Useful in searching for local events or events within a specific time frame.
 // If you are just looking for upcoming events for a single artist use Artists - Events.
 // https://www.bandsintown.com/api/1.0/requests#events-search
-func (service *EventService) Search(params EventSearchParams) ([]Event, *http.Response, error) {
-	deserialisableEvents := new([]deserialisableEvent)
-	apiError := new(ApiError)
+func (service *EventService) Search(params datatypes.EventSearchParams) ([]datatypes.Event, *http.Response, error) {
+	deserialisableEvents := new([]datatypes.DeserialisableEvent)
+	apiError := new(datatypes.ApiError)
 	path := fmt.Sprintf("events/search.%v", format)
-	params.ApiId = service.AppId
-	resp, err := service.Sling.New().Get(path).QueryStruct(params).Receive(deserialisableEvents, apiError)
+	serialisableParams := datatypes.NewSerialisableEventSearchParams(&params, service.AppId)
+	resp, err := service.Sling.New().Get(path).QueryStruct(serialisableParams).Receive(deserialisableEvents, apiError)
 
 	if err == nil {
 		err = apiError
 	}
 
-	return newEvents(*deserialisableEvents), resp, err
+	return datatypes.NewEvents(*deserialisableEvents), resp, err
 }
-
-
-// http://api.bandsintown.com/

@@ -4,16 +4,16 @@ import(
 	"fmt"
 	"time"
 	"bandsintown-api/apiclient"
-	"bandsintown-api/apiclient/customtimes"
+	"bandsintown-api/datatypes"
 )
 
 func main() {
-	client := apiclient.NewClient(nil)
-	var result []apiclient.Event
+	client := apiclient.NewClient(nil, "http://api.bandsintown.com", "some_api_id" )
+	var result []datatypes.Event
 	var err error
-	params := apiclient.EventSearchParams{
+	params := datatypes.EventSearchParams{
 		Artists: []string{"Weezer", "Kayne West"},
-		Datetime: []customtimes.SearchCustomTime{customtimes.SearchCustomTime{ Time: time.Now() }, customtimes.SearchCustomTime{ Time: time.Now() }}, //todo not working
+		Datetime: []time.Time{ time.Now(), time.Now() }, // todo, not working
 	}
 	result, _, err = client.EventService.Search(params)
 	fmt.Println(result)

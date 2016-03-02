@@ -4,6 +4,7 @@ import(
 	"fmt"
 	"net/http"
 	"github.com/dghubble/sling"
+	"bandsintown-api/datatypes"
 )
 
 // ArtistService provides methods for Artist related requests
@@ -23,9 +24,9 @@ func NewArtistService(httpClient *http.Client, baseUrl string, appId string) *Ar
 // Returns basic information for a single artist, including the number of upcoming events.
 // Useful in determining if an artist is on tour without requesting the event data.
 // https://www.bandsintown.com/api/1.0/requests#artists-get
-func (service *ArtistService) GetInfo(name string) (ArtistInfo, *http.Response, error) {
-	artistInfo := new(ArtistInfo)
-	apiError := new(ApiError)
+func (service *ArtistService) GetInfo(name string) (datatypes.ArtistInfo, *http.Response, error) {
+	artistInfo := new(datatypes.ArtistInfo)
+	apiError := new(datatypes.ApiError)
 	path := fmt.Sprintf("artists/%v.%v?app_id=%v", name, format, service.AppId)
 	resp, err := service.Sling.New().Get(path).Receive(artistInfo, apiError)
 	if err == nil {
@@ -36,9 +37,9 @@ func (service *ArtistService) GetInfo(name string) (ArtistInfo, *http.Response, 
 
 // Returns events for a single artist.
 // https://www.bandsintown.com/api/1.0/requests#artists-events
-func (service *ArtistService) GetEvents(name string) ([]Event, *http.Response, error) {
-	deserialisableEvents := new([]deserialisableEvent)
-	apiError := new(ApiError)
+func (service *ArtistService) GetEvents(name string) ([]datatypes.Event, *http.Response, error) {
+	deserialisableEvents := new([]datatypes.DeserialisableEvent)
+	apiError := new(datatypes.ApiError)
 	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", name, format, service.AppId)
 	resp, err := service.Sling.New().Get(path).Receive(deserialisableEvents, apiError)
 
@@ -46,5 +47,5 @@ func (service *ArtistService) GetEvents(name string) ([]Event, *http.Response, e
 		err = apiError
 	}
 
-	return newEvents(*deserialisableEvents), resp, err
+	return datatypes.NewEvents(*deserialisableEvents), resp, err
 }

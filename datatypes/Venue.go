@@ -1,4 +1,4 @@
-package apiclient
+package datatypes
 
 type Venue struct{
 	Id int `json:"id"`
