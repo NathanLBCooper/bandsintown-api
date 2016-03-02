@@ -1,10 +1,11 @@
-package datatypes
+package apiclient
 
 import(
 	"bandsintown-api/customtimes"
+	"bandsintown-api/datatypes"
 )
 
-type SerialisableEventSearchParams struct {
+type serialisableEventSearchParams struct {
 	Artists []string `url:"artists[],omitempty"`
 	Location string `url:"location,omitempty"`
 	Radius int `url:"radius,omitempty"`
@@ -15,8 +16,8 @@ type SerialisableEventSearchParams struct {
 }
 
 // Create SerialisableEventSearchParams from EventSearchParams
-func NewSerialisableEventSearchParams(params* EventSearchParams, appId string) *SerialisableEventSearchParams {
-	return &SerialisableEventSearchParams{
+func newSerialisableEventSearchParams(params* datatypes.EventSearchParams, appId string)*serialisableEventSearchParams {
+	return &serialisableEventSearchParams{
 		Artists: params.Artists,
 		Location: params.Location,
 		Radius: params.Radius,

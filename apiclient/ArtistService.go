@@ -38,7 +38,7 @@ func (service *ArtistService) GetInfo(name string) (datatypes.ArtistInfo, *http.
 // Returns events for a single artist.
 // https://www.bandsintown.com/api/1.0/requests#artists-events
 func (service *ArtistService) GetEvents(name string) ([]datatypes.Event, *http.Response, error) {
-	deserialisableEvents := new([]datatypes.DeserialisableEvent)
+	deserialisableEvents := new([]deserialisableEvent)
 	apiError := new(datatypes.ApiError)
 	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", name, format, service.AppId)
 	resp, err := service.Sling.New().Get(path).Receive(deserialisableEvents, apiError)
@@ -47,5 +47,5 @@ func (service *ArtistService) GetEvents(name string) ([]datatypes.Event, *http.R
 		err = apiError
 	}
 
-	return datatypes.NewEvents(*deserialisableEvents), resp, err
+	return newEvents(*deserialisableEvents), resp, err
 }
