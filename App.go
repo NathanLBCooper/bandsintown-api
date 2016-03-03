@@ -13,17 +13,17 @@ func main() {
 	var err error
 	params := datatypes.EventSearchParams{
 		Artists: []string{"Weezer", "Kayne West"},
-		Datetime: []time.Time{ time.Now(), time.Now() }, // todo, not working
+		//Location: "Boston,MA",
+		Date: []time.Time{ time.Now().AddDate(0,0,0), time.Now().AddDate(0,1,0) },
 	}
 	result, _, err = client.EventService.Search(params)
+	fmt.Println("Results")
 	fmt.Println(result)
+	fmt.Println("err")
 	fmt.Println(err)
 
+	fmt.Println("items")
 	for _, item := range result {
 		fmt.Println(item)
 	}
-
-	fmt.Println(result[0].Artists)
-	fmt.Println(result[0].Datetime)
-	fmt.Println(result[0].TicketUrl)
 }

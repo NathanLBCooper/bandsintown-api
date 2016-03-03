@@ -10,7 +10,7 @@ type EventSearchParams struct {
 	Artists []string
 	Location string
 	Radius int
-	Datetime []time.Time
+	Date []time.Time
 	Page int
 	Perpage int
 }
