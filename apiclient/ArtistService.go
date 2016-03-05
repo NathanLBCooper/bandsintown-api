@@ -24,6 +24,7 @@ func NewArtistService(httpClient *http.Client, baseUrl string, appId string) *Ar
 // Returns basic information for a single artist, including the number of upcoming events.
 // Useful in determining if an artist is on tour without requesting the event data.
 // https://www.bandsintown.com/api/1.0/requests#artists-get
+// http://api.bandsintown.com/artists/name.format
 func (service *ArtistService) GetInfo(name string) (datatypes.ArtistInfo, *http.Response, error) {
 	artistInfo := new(datatypes.ArtistInfo)
 	apiError := new(datatypes.ApiError)
@@ -37,6 +38,7 @@ func (service *ArtistService) GetInfo(name string) (datatypes.ArtistInfo, *http.
 
 // Returns events for a single artist.
 // https://www.bandsintown.com/api/1.0/requests#artists-events
+// http://api.bandsintown.com/artists/name/events.format
 func (service *ArtistService) GetEvents(name string) ([]datatypes.Event, *http.Response, error) {
 	deserialisableEvents := new([]deserialisableEvent)
 	apiError := new(datatypes.ApiError)
