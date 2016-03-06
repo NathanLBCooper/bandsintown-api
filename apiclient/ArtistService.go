@@ -21,20 +21,27 @@ func NewArtistService(httpClient *http.Client, baseUrl string, appId string) *Ar
 		AppId: appId,
 	}
 }
-
 // Returns basic information for a single artist, including the number of upcoming events.
 // Useful in determining if an artist is on tour without requesting the event data.
 // https://www.bandsintown.com/api/1.0/requests#artists-get
 // http://api.bandsintown.com/artists/name.format
-func (service *ArtistService) GetInfo(name string) (datatypes.ArtistInfo, *http.Response, error) {
+func (service *ArtistService) getInfo(param string) (datatypes.ArtistInfo, *http.Response, error) {
 	artistInfo := new(datatypes.ArtistInfo)
 	apiError := new(datatypes.ApiError)
-	path := fmt.Sprintf("artists/%v.%v?app_id=%v", name, format, service.AppId)
+	path := fmt.Sprintf("artists/%v.%v?app_id=%v", param, format, service.AppId)
 	resp, err := service.Sling.New().Get(path).Receive(artistInfo, apiError)
 	if err == nil {
 		err = apiError
 	}
 	return *artistInfo, resp, err
+}
+
+func (service *ArtistService) GetInfoByName(name string) (datatypes.ArtistInfo, *http.Response, error) {
+	return service.getInfo(name)
+}
+
+func (service *ArtistService) GetInfoByMbidId(mbidId string) (datatypes.ArtistInfo, *http.Response, error) {
+	return service.getInfo(fmt.Sprintf("mbid_%v", mbidId))
 }
 
 // Returns events for a single artist.
