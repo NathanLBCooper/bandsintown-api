@@ -1,10 +1,10 @@
-package apiclient
+package internal_datatypes
 
 import(
 	"bandsintown-api/datatypes"
 )
 
-type serialisableVenueSearchParams struct {
+type SerialisableVenueSearchParams struct {
 	Query string `url:"query,omitempty"`
 	Location string `url:"location,omitempty"`
 	Radius int `url:"radius,omitempty"`
@@ -13,9 +13,9 @@ type serialisableVenueSearchParams struct {
 	ApiId string `url:"app_id,omitempty"`
 }
 
-// Create serialisableVenueSearchParams from VenueSearchParams
-func newSerialisableVenueSearchParams(params* datatypes.VenueSearchParams, appId string) *serialisableVenueSearchParams {
-	return &serialisableVenueSearchParams{
+// Create SerialisableVenueSearchParams from VenueSearchParams
+func NewSerialisableVenueSearchParams(params* datatypes.VenueSearchParams, appId string) *SerialisableVenueSearchParams {
+	return &SerialisableVenueSearchParams{
 		Query: params.Query,
 		Location: params.Location,
 		Radius: params.Radius,

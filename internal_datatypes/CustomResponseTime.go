@@ -1,4 +1,4 @@
-package customtimes
+package internal_datatypes
 
 import(
 	"time"

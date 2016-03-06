@@ -9,7 +9,7 @@ import(
 
 func main() {
 	client := apiclient.NewClient(nil, "http://api.bandsintown.com", "some_api_id" )
-	var result []datatypes.Venue
+	var result []datatypes.Event
 	var err error
 
 
@@ -22,16 +22,16 @@ func main() {
 		OnlyRecommendations: true,
 	}*/
 
-	/*params := datatypes.EventOnSaleSoonParams{
+	params := datatypes.EventOnSaleSoonParams{
 		Location: "London,UK",
 		Radius: 150,
-	}*/
-
-	params := datatypes.VenueSearchParams{
-		Query: "Paradise Rock Club",
 	}
 
-	result, _, err = client.VenueService.Search(params)
+	/*params := datatypes.VenueSearchParams{
+		Query: "Paradise Rock Club",
+	}*/
+
+	result, _, err = client.EventService.OnSaleSoon(params)
 	fmt.Println("Results")
 	fmt.Println(result)
 	fmt.Println("err")

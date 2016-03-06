@@ -4,8 +4,6 @@ import(
 	"time"
 )
 
-// todo enforce required fields
-// todo enforce field validations
 type EventSearchParams struct {
 	Artists []string
 	Location string

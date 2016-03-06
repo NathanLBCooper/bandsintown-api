@@ -5,6 +5,7 @@ import(
 	"net/http"
 	"github.com/dghubble/sling"
 	"bandsintown-api/datatypes"
+	"bandsintown-api/internal_datatypes"
 )
 
 // ArtistService provides methods for Artist related requests
@@ -40,7 +41,7 @@ func (service *ArtistService) GetInfo(name string) (datatypes.ArtistInfo, *http.
 // https://www.bandsintown.com/api/1.0/requests#artists-events
 // http://api.bandsintown.com/artists/name/events.format
 func (service *ArtistService) GetEvents(name string) ([]datatypes.Event, *http.Response, error) {
-	deserialisableEvents := new([]deserialisableEvent)
+	deserialisableEvents := new([]internal_datatypes.DeserialisableEvent)
 	apiError := new(datatypes.ApiError)
 	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", name, format, service.AppId)
 	resp, err := service.Sling.New().Get(path).Receive(deserialisableEvents, apiError)
@@ -49,5 +50,5 @@ func (service *ArtistService) GetEvents(name string) ([]datatypes.Event, *http.R
 		err = apiError
 	}
 
-	return newEvents(*deserialisableEvents), resp, err
+	return internal_datatypes.NewEvents(*deserialisableEvents), resp, err
 }

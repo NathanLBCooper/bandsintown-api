@@ -1,4 +1,4 @@
-package apiclient
+package internal_datatypes
 
 import(
 	"time"
@@ -8,7 +8,7 @@ import(
 
 const customSearchTimeFormat = "2006-01-02"
 
-type serialisableEventSearchParams struct {
+type SerialisableEventSearchParams struct {
 	Artists []string `url:"artists[],omitempty"`
 	Location string `url:"location,omitempty"`
 	Radius int `url:"radius,omitempty"`
@@ -27,9 +27,9 @@ func formatSearchTimes(times []time.Time) string {
 	return strings.Join(timeStrs, ",");
 }
 
-// Create serialisableEventSearchParams from EventSearchParams
-func newSerialisableEventSearchParams(params* datatypes.EventSearchParams, appId string)*serialisableEventSearchParams {
-	return &serialisableEventSearchParams{
+// Create SerialisableEventSearchParams from EventSearchParams
+func NewSerialisableEventSearchParams(params* datatypes.EventSearchParams, appId string)*SerialisableEventSearchParams {
+	return &SerialisableEventSearchParams{
 		Artists: params.Artists,
 		Location: params.Location,
 		Radius: params.Radius,

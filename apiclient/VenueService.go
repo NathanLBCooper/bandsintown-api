@@ -5,6 +5,7 @@ import(
 	"net/http"
 	"github.com/dghubble/sling"
 	"bandsintown-api/datatypes"
+	"bandsintown-api/internal_datatypes"
 )
 
 // VenueService provides methods for Venue related requests
@@ -25,7 +26,7 @@ func NewVenueService(httpClient *http.Client, baseUrl string, appId string) *Ven
 // https://www.bandsintown.com/api/1.0/requests#venues-events
 // http://api.bandsintown.com/venues/id/events.format //todo name of venueId
 func (service *VenueService) Events(venueId int) ([]datatypes.Event, *http.Response, error) {
-	deserialisableEvents := new([]deserialisableEvent)
+	deserialisableEvents := new([]internal_datatypes.DeserialisableEvent)
 	apiError := new(datatypes.ApiError)
 	path := fmt.Sprintf("venues/%v/events.%v?app_id=%v", venueId, format, service.AppId)
 	resp, err := service.Sling.New().Get(path).Receive(deserialisableEvents, apiError)
@@ -34,7 +35,7 @@ func (service *VenueService) Events(venueId int) ([]datatypes.Event, *http.Respo
 		err = apiError
 	}
 
-	return newEvents(*deserialisableEvents), resp, err
+	return internal_datatypes.NewEvents(*deserialisableEvents), resp, err
 }
 
 // Returns venues matching a search query (supports location filtering).
@@ -45,7 +46,7 @@ func (service *VenueService) Search(params datatypes.VenueSearchParams) ([]datat
 	venues := new([]datatypes.Venue)
 	apiError := new(datatypes.ApiError)
 	path := fmt.Sprintf("venues/search.%v", format)
-	serialisableParams := newSerialisableVenueSearchParams(&params, service.AppId)
+	serialisableParams := internal_datatypes.NewSerialisableVenueSearchParams(&params, service.AppId)
 	resp, err := service.Sling.New().Get(path).QueryStruct(serialisableParams).Receive(venues, apiError)
 
 	if err == nil {
