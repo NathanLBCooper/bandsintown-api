@@ -36,3 +36,21 @@ func (service *VenueService) Events(venueId int) ([]datatypes.Event, *http.Respo
 
 	return newEvents(*deserialisableEvents), resp, err
 }
+
+// Returns venues matching a search query (supports location filtering).
+// https://www.bandsintown.com/api/1.0/requests#venues-search
+// http://api.bandsintown.com/venues/search.format
+// todo, not working?
+func (service *VenueService) Search(params datatypes.VenueSearchParams) ([]datatypes.Venue, *http.Response, error) {
+	venues := new([]datatypes.Venue)
+	apiError := new(datatypes.ApiError)
+	path := fmt.Sprintf("venues/search.%v", format)
+	serialisableParams := newSerialisableVenueSearchParams(&params, service.AppId)
+	resp, err := service.Sling.New().Get(path).QueryStruct(serialisableParams).Receive(venues, apiError)
+
+	if err == nil {
+		err = apiError
+	}
+
+	return *venues, resp, err
+}

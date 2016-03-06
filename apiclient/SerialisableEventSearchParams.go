@@ -14,7 +14,7 @@ type serialisableEventSearchParams struct {
 	Radius int `url:"radius,omitempty"`
 	Date string `url:"date,omitempty"`
 	Page int `url:"page,omitempty"`
-	Perpage int `url:"per_page,omitempty"`
+	PerPage int `url:"per_page,omitempty"`
 	ApiId string `url:"app_id,omitempty"`
 }
 
@@ -27,7 +27,7 @@ func formatSearchTimes(times []time.Time) string {
 	return strings.Join(timeStrs, ",");
 }
 
-// Create SerialisableEventSearchParams from EventSearchParams
+// Create serialisableEventSearchParams from EventSearchParams
 func newSerialisableEventSearchParams(params* datatypes.EventSearchParams, appId string)*serialisableEventSearchParams {
 	return &serialisableEventSearchParams{
 		Artists: params.Artists,
@@ -35,7 +35,7 @@ func newSerialisableEventSearchParams(params* datatypes.EventSearchParams, appId
 		Radius: params.Radius,
 		Date: formatSearchTimes(params.Date),
 		Page: params.Page,
-		Perpage: params.Perpage,
+		PerPage: params.PerPage,
 		ApiId: appId,
 	}
 }

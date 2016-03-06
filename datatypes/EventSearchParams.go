@@ -12,5 +12,5 @@ type EventSearchParams struct {
 	Radius int
 	Date []time.Time
 	Page int
-	Perpage int
+	PerPage int
 }
