@@ -25,7 +25,7 @@ Below is an example usage of the Recommended
 	)
 	
 	func main() {
-		client := api_client.NewClient(nil, "http://api.bandsintown.com", "some_api_id" )
+		client := api_client.NewClient("some_api_id" )
 		var result []datatypes.Event
 		var err error
 	
