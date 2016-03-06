@@ -56,3 +56,20 @@ func (service *EventService) Recommended(params datatypes.EventRecommendedParams
 
 	return newEvents(*deserialisableEvents), resp, err
 }
+
+// Returns events going on sale in the next week (including today). Supports location filtering.
+// https://www.bandsintown.com/api/1.0/requests#events-on-sale-soon
+// http://api.bandsintown.com/events/on_sale_soon.format
+func (service *EventService) OnSaleSoon(params datatypes.EventOnSaleSoonParams) ([]datatypes.Event, *http.Response, error){
+	deserialisableEvents := new([]deserialisableEvent)
+	apiError := new(datatypes.ApiError)
+	path := fmt.Sprintf("events/on_sale_soon.%v", format)
+	serialisableParams := newSerialisableEventOnSaleSoonParams(&params, service.AppId)
+	resp, err := service.Sling.New().Get(path).QueryStruct(serialisableParams).Receive(deserialisableEvents, apiError)
+
+	if err == nil {
+		err = apiError
+	}
+
+	return newEvents(*deserialisableEvents), resp, err
+}
