@@ -77,6 +77,7 @@ func (service *EventService) OnSaleSoon(params datatypes.EventOnSaleSoonParams) 
 // Returns events that have been created, updated or deleted in the last day. Useful in syncing data with Bandsintown.
 // The daily feed is updated each day at 12:00 PM EST. (17:00 UTC)
 // https://www.bandsintown.com/api/1.0/requests#events-daily
+// http://api.bandsintown.com/events/daily.format
 func (service *EventService) Daily() ([]datatypes.Event, *http.Response, error){
 	deserialisableEvents := new([]deserialisableEvent)
 	apiError := new(datatypes.ApiError)

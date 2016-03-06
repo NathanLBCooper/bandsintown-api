@@ -28,7 +28,7 @@ func main() {
 	}*/
 
 
-	result, _, err = client.EventService.Daily()
+	result, _, err = client.VenueService.Events(1700)
 	fmt.Println("Results")
 	fmt.Println(result)
 	fmt.Println("err")
