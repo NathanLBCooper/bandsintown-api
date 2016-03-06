@@ -22,13 +22,13 @@ func main() {
 		OnlyRecommendations: true,
 	}*/
 
-	params := datatypes.EventOnSaleSoonParams{
+	/*params := datatypes.EventOnSaleSoonParams{
 		Location: "London,UK",
 		Radius: 150,
-	}
+	}*/
 
 
-	result, _, err = client.EventService.OnSaleSoon(params)
+	result, _, err = client.EventService.Daily()
 	fmt.Println("Results")
 	fmt.Println(result)
 	fmt.Println("err")

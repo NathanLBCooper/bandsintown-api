@@ -73,3 +73,19 @@ func (service *EventService) OnSaleSoon(params datatypes.EventOnSaleSoonParams) 
 
 	return newEvents(*deserialisableEvents), resp, err
 }
+
+// Returns events that have been created, updated or deleted in the last day. Useful in syncing data with Bandsintown.
+// The daily feed is updated each day at 12:00 PM EST. (17:00 UTC)
+// https://www.bandsintown.com/api/1.0/requests#events-daily
+func (service *EventService) Daily() ([]datatypes.Event, *http.Response, error){
+	deserialisableEvents := new([]deserialisableEvent)
+	apiError := new(datatypes.ApiError)
+	path := fmt.Sprintf("events/daily.%v", format)
+	resp, err := service.Sling.New().Get(path).QueryStruct(appIdParam{ AppId: service.AppId }).Receive(deserialisableEvents, apiError)
+
+	if err == nil {
+		err = apiError
+	}
+
+	return newEvents(*deserialisableEvents), resp, err
+}
