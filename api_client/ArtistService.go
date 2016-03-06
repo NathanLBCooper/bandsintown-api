@@ -40,18 +40,30 @@ func (service *ArtistService) GetInfoByName(name string) (datatypes.ArtistInfo, 
 	return service.getInfo(name)
 }
 
-func (service *ArtistService) GetInfoByMbidId(mbidId string) (datatypes.ArtistInfo, *http.Response, error) {
-	return service.getInfo(fmt.Sprintf("mbid_%v", mbidId))
+func (service *ArtistService) GetInfoByMbId(mbId string) (datatypes.ArtistInfo, *http.Response, error) {
+	return service.getInfo(fmt.Sprintf("mbid_%v", mbId))
 }
 
 // Returns events for a single artist.
 // https://www.bandsintown.com/api/1.0/requests#artists-events
 // http://api.bandsintown.com/artists/name/events.format
-func (service *ArtistService) GetEvents(name string) ([]datatypes.Event, *http.Response, error) {
+func (service *ArtistService) GetEvents(param datatypes.ArtistEventSearchParam) ([]datatypes.Event, *http.Response, error) {
+	var artist string
+	if(param.MbId != ""){
+		artist = param.MbId
+	} else{
+		artist = param.Name
+	}
+
 	deserialisableEvents := new([]internal_datatypes.DeserialisableEvent)
 	apiError := new(datatypes.ApiError)
-	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", name, format, service.AppId)
-	resp, err := service.Sling.New().Get(path).Receive(deserialisableEvents, apiError)
+	path := fmt.Sprintf("artists/%v/events.%v?app_id=%v", artist, format, service.AppId)
+
+	args := new(internal_datatypes.ArtistEventSearchQueryParam)
+	if(param.Date != nil) {
+		args = internal_datatypes.NewArtistEventSearchParam(&param.Date)
+	}
+	resp, err := service.Sling.New().Get(path).QueryStruct(args).Receive(deserialisableEvents, apiError)
 
 	if err == nil {
 		err = apiError

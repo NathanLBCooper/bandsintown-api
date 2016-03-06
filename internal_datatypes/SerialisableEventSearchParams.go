@@ -1,12 +1,8 @@
 package internal_datatypes
 
 import(
-	"time"
-	"strings"
 	"bandsintown-api/datatypes"
 )
-
-const customSearchTimeFormat = "2006-01-02"
 
 type SerialisableEventSearchParams struct {
 	Artists []string `url:"artists[],omitempty"`
@@ -16,15 +12,6 @@ type SerialisableEventSearchParams struct {
 	Page int `url:"page,omitempty"`
 	PerPage int `url:"per_page,omitempty"`
 	ApiId string `url:"app_id,omitempty"`
-}
-
-func formatSearchTimes(times []time.Time) string {
-	timeStrs := make([]string, len(times))
-	for i,time := range times{
-		timeStrs[i] = time.Format(customSearchTimeFormat)
-	}
-
-	return strings.Join(timeStrs, ",");
 }
 
 // Create SerialisableEventSearchParams from EventSearchParams
