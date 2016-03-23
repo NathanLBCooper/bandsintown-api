@@ -34,7 +34,7 @@ func (service *EventService) Search(params datatypes.EventSearchParams) ([]datat
 	serialisableParams := internal_datatypes.NewSerialisableEventSearchParams(&params, service.AppId)
 	resp, err := service.Sling.New().Get(path).QueryStruct(serialisableParams).Receive(deserialisableEvents, apiError)
 
-	if err == nil {
+	if err == nil && apiError.HasErrors()  {
 		err = apiError
 	}
 
@@ -51,7 +51,7 @@ func (service *EventService) Recommended(params datatypes.EventRecommendedParams
 	serialisableParams := internal_datatypes.NewSerialisableEventRecommendedParams(&params, service.AppId)
 	resp, err := service.Sling.New().Get(path).QueryStruct(serialisableParams).Receive(deserialisableEvents, apiError)
 
-	if err == nil {
+	if err == nil && apiError.HasErrors()  {
 		err = apiError
 	}
 
@@ -68,7 +68,7 @@ func (service *EventService) OnSaleSoon(params datatypes.EventOnSaleSoonParams) 
 	serialisableParams := internal_datatypes.NewSerialisableEventOnSaleSoonParams(&params, service.AppId)
 	resp, err := service.Sling.New().Get(path).QueryStruct(serialisableParams).Receive(deserialisableEvents, apiError)
 
-	if err == nil {
+	if err == nil && apiError.HasErrors()  {
 		err = apiError
 	}
 
@@ -85,7 +85,7 @@ func (service *EventService) Daily() ([]datatypes.Event, *http.Response, error){
 	path := fmt.Sprintf("events/daily.%v", format)
 	resp, err := service.Sling.New().Get(path).QueryStruct(internal_datatypes.AppIdParam{ AppId: service.AppId }).Receive(deserialisableEvents, apiError)
 
-	if err == nil {
+	if err == nil && apiError.HasErrors()  {
 		err = apiError
 	}
 

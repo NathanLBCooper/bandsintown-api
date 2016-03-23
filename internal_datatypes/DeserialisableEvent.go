@@ -11,6 +11,7 @@ type DeserialisableEvent struct{
 	Datetime CustomResponseTime `json:"datetime"`
 	TicketUrl string `json:"ticket_url"`
 	Artists []datatypes.Artist `json:"artists"`
+	Venue datatypes.Venue `json:"venue"`
 	Status string `json:"status"`
 	TicketStatus string `json:"ticket_status"`
 	OnSaleDatetime CustomResponseTime `json:"on_sale_datetime"`
@@ -24,6 +25,7 @@ func NewEvent(event* DeserialisableEvent) *datatypes.Event {
 		Datetime: event.Datetime.Time,
 		TicketUrl: event.TicketUrl,
 		Artists: event.Artists,
+		Venue: event.Venue,
 		Status: event.Status,
 		TicketStatus: event.TicketStatus,
 		OnSaleDatetime: event.OnSaleDatetime.Time,

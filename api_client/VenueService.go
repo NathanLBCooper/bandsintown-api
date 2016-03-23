@@ -31,7 +31,7 @@ func (service *VenueService) Events(venueId int) ([]datatypes.Event, *http.Respo
 	path := fmt.Sprintf("venues/%v/events.%v?app_id=%v", venueId, format, service.AppId)
 	resp, err := service.Sling.New().Get(path).Receive(deserialisableEvents, apiError)
 
-	if err == nil {
+	if err == nil && apiError.HasErrors()  {
 		err = apiError
 	}
 
@@ -49,7 +49,7 @@ func (service *VenueService) Search(params datatypes.VenueSearchParams) ([]datat
 	serialisableParams := internal_datatypes.NewSerialisableVenueSearchParams(&params, service.AppId)
 	resp, err := service.Sling.New().Get(path).QueryStruct(serialisableParams).Receive(venues, apiError)
 
-	if err == nil {
+	if err == nil && apiError.HasErrors()  {
 		err = apiError
 	}
 

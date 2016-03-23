@@ -30,7 +30,7 @@ func (service *ArtistService) getInfo(param string) (datatypes.ArtistInfo, *http
 	apiError := new(datatypes.ApiError)
 	path := fmt.Sprintf("artists/%v.%v?app_id=%v", param, format, service.AppId)
 	resp, err := service.Sling.New().Get(path).Receive(artistInfo, apiError)
-	if err == nil {
+	if err == nil && apiError.HasErrors()  {
 		err = apiError
 	}
 	return *artistInfo, resp, err
@@ -65,7 +65,7 @@ func (service *ArtistService) GetEvents(param datatypes.ArtistEventSearchParam) 
 	}
 	resp, err := service.Sling.New().Get(path).QueryStruct(args).Receive(deserialisableEvents, apiError)
 
-	if err == nil {
+	if err == nil && apiError.HasErrors()  {
 		err = apiError
 	}
 

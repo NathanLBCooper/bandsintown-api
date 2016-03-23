@@ -11,6 +11,7 @@ type Event struct{
 	Datetime time.Time `json:"datetime"`
 	TicketUrl string `json:"ticket_url"`
 	Artists []Artist `json:"artists"`
+	Venue Venue `json:"venue"`
 	Status string `json:"status"`
 	TicketStatus string `json:"ticket_status"`
 	OnSaleDatetime time.Time `json:"on_sale_datetime"`
