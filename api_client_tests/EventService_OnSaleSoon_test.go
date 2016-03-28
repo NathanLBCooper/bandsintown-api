@@ -7,13 +7,11 @@ import (
 	"time"
 	"encoding/json"
 	"net/http"
-	"net/http/httptest"
-	"net/url"
 	"bandsintown-api/datatypes"
 	"bandsintown-api/api_client"
 )
 
-func TestSearchCanReceiveSearchResponse(test *testing.T) {
+func TestOnSaleSoonCanReceiveOnSaleSoonResponse(test *testing.T) {
 	httpClient, mux, server := testServer()
 	defer server.Close()
 
@@ -50,7 +48,7 @@ func TestSearchCanReceiveSearchResponse(test *testing.T) {
 		OnSaleDatetime: time.Date(1, 1, 1, 0, 0, 0, 0, time.UTC),
 	}
 
-	mux.HandleFunc("/events/search.json", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/events/on_sale_soon.json", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		fmt.Fprintf(w, actualResponse)
 	})
@@ -58,14 +56,13 @@ func TestSearchCanReceiveSearchResponse(test *testing.T) {
 	client := api_client.NewClientDetailed(httpClient, "http://example.com", "myappId")
 
 	// Doesn't matter
-	params := datatypes.EventSearchParams{
-		Artists: []string{"Foo"},
+	params := datatypes.EventOnSaleSoonParams{
 		Location: "London,UK",
 		Radius: 10,
 	}
 
 	// Act
-	result, _, err := client.EventService.Search(params)
+	result, _, err := client.EventService.OnSaleSoon(params)
 
 	// Assert
 	if(err != nil){
@@ -85,12 +82,12 @@ func TestSearchCanReceiveSearchResponse(test *testing.T) {
 	}
 }
 
-func TestSearchProvidesCorrectQuery(test *testing.T) {
+func TestOnSaleSoonProvidesCorrectQuery(test *testing.T) {
 	httpClient, mux, server := testServer()
 	defer server.Close()
 
 	var method, host, path, rawQuery string
-	mux.HandleFunc("/events/search.json", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/events/on_sale_soon.json", func(w http.ResponseWriter, r *http.Request) {
 		method = r.Method
 		host = r.Host
 		path = r.URL.Path
@@ -99,37 +96,17 @@ func TestSearchProvidesCorrectQuery(test *testing.T) {
 
 	client := api_client.NewClientDetailed(httpClient, "http://example.com", "myappId")
 
-	params := datatypes.EventSearchParams{
-		Artists: []string{"Foo"},
+	params := datatypes.EventOnSaleSoonParams{
 		Location: "London,UK",
-		Date: []time.Time {
-			time.Date(2016, time.January, 1, 2, 3, 4, 5, time.UTC),
-			time.Date(2017, time.February, 6, 7, 9, 10, 11, time.UTC),
-		},
 		Radius: 10,
-		Page: 1,
-		PerPage: 100,
 	}
 
-	const expectedRawQuery = "app_id=myappId&artists%5B%5D=Foo&date=2016-01-01%2C2017-02-06" +
-	"&location=London%2CUK&page=1&per_page=100&radius=10"
+	const expectedRawQuery = "app_id=myappId&location=London%2CUK&radius=10"
 
-	client.EventService.Search(params)
+	client.EventService.OnSaleSoon(params)
 
 	if(method != "GET"){test.Errorf("expected method to be GET, got %v", method)}
 	if(host != "example.com"){test.Errorf("expected host to be example.com, got %v", host)}
-	if(path != "/events/search.json"){test.Errorf("expected path to be /events/search.json, got %v", path)}
+	if(path != "/events/on_sale_soon.json"){test.Errorf("expected path to be /events/search.json, got %v", path)}
 	if(rawQuery != expectedRawQuery){test.Errorf("expected rawQuery to be %v, got %v", expectedRawQuery, rawQuery)}
-}
-
-func testServer() (*http.Client, *http.ServeMux, *httptest.Server) {
-	mux := http.NewServeMux()
-	server := httptest.NewServer(mux)
-	transport := &http.Transport{
-		Proxy: func(req *http.Request) (*url.URL, error) {
-			return url.Parse(server.URL)
-		},
-	}
-	client := &http.Client{Transport: transport}
-	return client, mux, server
 }
