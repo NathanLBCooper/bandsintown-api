@@ -15,21 +15,21 @@ func TestRecommendedCanReceiveRecommendResponse(test *testing.T) {
 	httpClient, mux, server := testServer()
 	defer server.Close()
 
-	const actualResponse = `[{"id":21224258,"url":"https://ironchef.bandcamp.com?app_id=myappId",` +
+	const actualResponse = `[{"id":21224258,"url":"https://soundcloud.com/realironchef?app_id=myappId",` +
 	`"datetime":"2017-03-04T20:01:02","ticket_url":"https://ironchef.bandcamp.com?` +
-	`app_id=myappId\u0026came_from=233","artists":[{"name":"Iron Chief","url":"https://ironchef.bandcamp.com",` +
+	`app_id=myappId\u0026came_from=233","artists":[{"name":"Iron Chef","url":"https://ironchef.bandcamp.com",` +
 	`"mbid":"7fe07aa5-fec0-4eca-a456-f29bff451b04"}],"venue":{"id":2015552,"url":"http://www.bandsintown.com/` +
 	`venue/9000","name":"Purple Turtle","city":"Reading","region":"Berkshire","country":"Wessex",` +
 	`"latitude":57.6000,"longitude":13.6833},"ticket_status":"unavailable","on_sale_datetime":null}]`
 
 	expectedResponse := datatypes.Event{
 		Id: 21224258,
-		Url: "https://ironchef.bandcamp.com?app_id=myappId",
+		Url: "https://soundcloud.com/realironchef?app_id=myappId",
 		Datetime: time.Date(2017, 03, 04, 20, 1, 2, 0, time.UTC),
 		TicketUrl: "https://ironchef.bandcamp.com?app_id=myappId&came_from=233",
 		Artists: []datatypes.Artist{
 			datatypes.Artist{
-				Name: "Iron Chief",
+				Name: "Iron Chef",
 				Mbid: "7fe07aa5-fec0-4eca-a456-f29bff451b04",
 				Url: "https://ironchef.bandcamp.com",
 			},
