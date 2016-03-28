@@ -1,15 +1,16 @@
-package api_client
+package api_client_tests
 
 import (
+	"bytes"
 	"fmt"
 	"testing"
 	"time"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"encoding/json"
 	"bandsintown-api/datatypes"
-	"bytes"
+	"bandsintown-api/api_client"
 )
 
 func TestSearchCanReceiveSearchResponse(test *testing.T) {
@@ -54,7 +55,7 @@ func TestSearchCanReceiveSearchResponse(test *testing.T) {
 		fmt.Fprintf(w, actualResponse)
 	})
 
-	client := NewClientDetailed(httpClient, "http://example.com", "myappId")
+	client := api_client.NewClientDetailed(httpClient, "http://example.com", "myappId")
 
 	// Doesn't matter
 	params := datatypes.EventSearchParams{
@@ -96,7 +97,7 @@ func TestSearchProvidesCorrectQuery(test *testing.T) {
 		rawQuery = r.URL.RawQuery
 	})
 
-	client := NewClientDetailed(httpClient, "http://example.com", "myappId")
+	client := api_client.NewClientDetailed(httpClient, "http://example.com", "myappId")
 
 	params := datatypes.EventSearchParams{
 		Artists: []string{"Foo"},
