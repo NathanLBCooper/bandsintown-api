@@ -24,7 +24,7 @@ func NewVenueService(httpClient *http.Client, baseUrl string, appId string) *Ven
 
 // Returns all upcoming events for a single venue.
 // https://www.bandsintown.com/api/1.0/requests#venues-events
-// http://api.bandsintown.com/venues/id/events.format //todo name of venueId
+// http://api.bandsintown.com/venues/id/events.format
 func (service *VenueService) Events(venueId int) ([]datatypes.Event, *http.Response, error) {
 	deserialisableEvents := new([]internal_datatypes.DeserialisableEvent)
 	apiError := new(datatypes.ApiError)
@@ -41,7 +41,7 @@ func (service *VenueService) Events(venueId int) ([]datatypes.Event, *http.Respo
 // Returns venues matching a search query (supports location filtering).
 // https://www.bandsintown.com/api/1.0/requests#venues-search
 // http://api.bandsintown.com/venues/search.format
-// todo, not working?
+// todo: Seems consistant with the Api. But I can't even get data from their API manually. Perhaps it's broken on their end?
 func (service *VenueService) Search(params datatypes.VenueSearchParams) ([]datatypes.Venue, *http.Response, error) {
 	venues := new([]datatypes.Venue)
 	apiError := new(datatypes.ApiError)
