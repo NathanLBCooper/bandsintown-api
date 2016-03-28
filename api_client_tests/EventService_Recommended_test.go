@@ -15,36 +15,36 @@ func TestRecommendedCanReceiveRecommendResponse(test *testing.T) {
 	httpClient, mux, server := testServer()
 	defer server.Close()
 
-	const actualResponse = `[{"id":11224258,"url":"http://www.bandsintown.com/event/11224258?app_id=myappId",` +
-	`"datetime":"2016-04-05T19:00:00","ticket_url":"http://www.bandsintown.com/event/11224258/buy_tickets?` +
-	`app_id=myappId\u0026came_from=233","artists":[{"name":"Weezer","url":"http://www.bandsintown.com/Weezer",` +
-	`"mbid":"6fe07aa5-fec0-4eca-a456-f29bff451b04"}],"venue":{"id":1015552,"url":"http://www.bandsintown.com/` +
-	`venue/1015552","name":"O2 BRIXTON ACADEMY","city":"Brixton","region":"London","country":"United Kingdom",` +
-	`"latitude":51.4620184,"longitude":-0.1152248},"ticket_status":"available","on_sale_datetime":null}]`
+	const actualResponse = `[{"id":21224258,"url":"https://ironchef.bandcamp.com?app_id=myappId",` +
+	`"datetime":"2017-03-04T20:01:02","ticket_url":"https://ironchef.bandcamp.com?` +
+	`app_id=myappId\u0026came_from=233","artists":[{"name":"Iron Chief","url":"https://ironchef.bandcamp.com",` +
+	`"mbid":"7fe07aa5-fec0-4eca-a456-f29bff451b04"}],"venue":{"id":2015552,"url":"http://www.bandsintown.com/` +
+	`venue/9000","name":"Purple Turtle","city":"Reading","region":"Berkshire","country":"Wessex",` +
+	`"latitude":57.6000,"longitude":13.6833},"ticket_status":"unavailable","on_sale_datetime":null}]`
 
 	expectedResponse := datatypes.Event{
-		Id: 11224258,
-		Url: "http://www.bandsintown.com/event/11224258?app_id=myappId",
-		Datetime: time.Date(2016, 04, 05, 19, 0, 0, 0, time.UTC),
-		TicketUrl: "http://www.bandsintown.com/event/11224258/buy_tickets?app_id=myappId&came_from=233",
+		Id: 21224258,
+		Url: "https://ironchef.bandcamp.com?app_id=myappId",
+		Datetime: time.Date(2017, 03, 04, 20, 1, 2, 0, time.UTC),
+		TicketUrl: "https://ironchef.bandcamp.com?app_id=myappId&came_from=233",
 		Artists: []datatypes.Artist{
 			datatypes.Artist{
-				Name: "Weezer",
-				Mbid: "6fe07aa5-fec0-4eca-a456-f29bff451b04",
-				Url: "http://www.bandsintown.com/Weezer",
+				Name: "Iron Chief",
+				Mbid: "7fe07aa5-fec0-4eca-a456-f29bff451b04",
+				Url: "https://ironchef.bandcamp.com",
 			},
 		},
 		Venue: datatypes.Venue{
-			Id: 1015552,
-			Name: "O2 BRIXTON ACADEMY",
-			City: "Brixton",
-			Region: "London",
-			Country: "United Kingdom",
-			Url: "http://www.bandsintown.com/venue/1015552",
-			Latitude: 51.4620184,
-			Longitude: -0.1152248,
+			Id: 2015552,
+			Name: "Purple Turtle",
+			City: "Reading",
+			Region: "Berkshire",
+			Country: "Wessex",
+			Url: "http://www.bandsintown.com/venue/9000",
+			Latitude: 57.6000,
+			Longitude: 13.6833,
 		},
-		TicketStatus: "available",
+		TicketStatus: "unavailable",
 		OnSaleDatetime: time.Date(1, 1, 1, 0, 0, 0, 0, time.UTC),
 	}
 
@@ -97,30 +97,30 @@ func TestRecommendedProvidesCorrectQuery(test *testing.T) {
 		rawQuery = r.URL.RawQuery
 	})
 
-	client := api_client.NewClientDetailed(httpClient, "http://example.com", "myappId")
+	client := api_client.NewClientDetailed(httpClient, "http://example2.com", "myappId")
 
 	params := datatypes.EventRecommendedParams{
 		EventSearchParams : datatypes.EventSearchParams{
-			Artists: []string{"Foo"},
+			Artists: []string{"Foo","Bar"},
 			Location: "London,UK",
 			Date: []time.Time {
-				time.Date(2016, time.January, 1, 2, 3, 4, 5, time.UTC),
-				time.Date(2017, time.February, 6, 7, 9, 10, 11, time.UTC),
+				time.Date(2016, time.March, 1, 2, 3, 4, 5, time.UTC),
+				time.Date(2017, time.April, 6, 7, 9, 10, 11, time.UTC),
 			},
-			Radius: 10,
-			Page: 1,
-			PerPage: 100,
+			Radius: 12,
+			Page: 2,
+			PerPage: 1,
 		},
 		OnlyRecommendations: true,
 	}
 
-	const expectedRawQuery = "app_id=myappId&artists%5B%5D=Foo&date=2016-01-01%2C2017-02-06" +
-	"&location=London%2CUK&only_recs=true&page=1&per_page=100&radius=10"
+	const expectedRawQuery = "app_id=myappId&artists%5B%5D=Foo&artists%5B%5D=Bar&date=2016-03-01%2C2017-04-06" +
+	"&location=London%2CUK&only_recs=true&page=2&per_page=1&radius=12"
 
 	client.EventService.Recommended(params)
 
 	if(method != "GET"){test.Errorf("expected method to be GET, got %v", method)}
-	if(host != "example.com"){test.Errorf("expected host to be example.com, got %v", host)}
+	if(host != "example2.com"){test.Errorf("expected host to be example.com, got %v", host)}
 	if(path != "/events/recommended.json"){test.Errorf("expected path to be /events/search.json, got %v", path)}
 	if(rawQuery != expectedRawQuery){test.Errorf("expected rawQuery to be %v, got %v", expectedRawQuery, rawQuery)}
 }
