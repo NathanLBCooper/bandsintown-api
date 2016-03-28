@@ -77,3 +77,30 @@ func TestArtistGetInfoByNameProvidesCorrectQuery(test *testing.T) {
 	if(path != getPath){test.Errorf("expected path to be %v, got %v", getPath, path)}
 	if(rawQuery != expectedRawQuery){test.Errorf("expected rawQuery to be %v, got %v", expectedRawQuery, rawQuery)}
 }
+
+func TestArtistGetInfoByMbidProvidesCorrectQuery(test *testing.T) {
+	httpClient, mux, server := testServer()
+	defer server.Close()
+
+	const mBid = "0cd12ab3-9628-45ef-a97b-ff18624f14a0"
+	const appId = "appid"
+	var method, host, path, rawQuery string
+	getPath := fmt.Sprintf("/artists/mbid_%v.json", mBid)
+	mux.HandleFunc(getPath, func(w http.ResponseWriter, r *http.Request) {
+		method = r.Method
+		host = r.Host
+		path = r.URL.Path
+		rawQuery = r.URL.RawQuery
+	})
+
+	client := api_client.NewClientDetailed(httpClient, "http://example.com", appId)
+
+	expectedRawQuery := fmt.Sprintf("app_id=%v", appId)
+
+	client.ArtistService.GetInfoByMbId(mBid)
+
+	if(method != "GET"){test.Errorf("expected method to be GET, got %v", method)}
+	if(host != "example.com"){test.Errorf("expected host to be example.com, got %v", host)}
+	if(path != getPath){test.Errorf("expected path to be %v, got %v", getPath, path)}
+	if(rawQuery != expectedRawQuery){test.Errorf("expected rawQuery to be %v, got %v", expectedRawQuery, rawQuery)}
+}
