@@ -13,7 +13,7 @@ A client library for the Bandsintown Concert API.
 
 ### Example usage:
 
-Below is an example usage of the Recommended 
+Below is an example usage of requesting [Recommended Events](https://www.bandsintown.com/api/1.0/requests#events-recommended), for a fan of Kayne West and 65daysofstatic in the upcoming year:
 
 	package main
 	
@@ -26,25 +26,22 @@ Below is an example usage of the Recommended
 	
 	func main() {
 		client := api_client.NewClient("some_api_id" )
-		var result []datatypes.Event
-		var err error
 	
 		params := datatypes.EventRecommendedParams{
 			EventSearchParams : datatypes.EventSearchParams{
-				Artists: []string{"Weezer", "Kayne West"},
-				Date: []time.Time{time.Now().AddDate(0, 0, 0), time.Now().AddDate(10, 1, 0) },
+				Artists: []string{"Kayne West", "65daysofstatic"},
+				Date: []time.Time{time.Now(), time.Now().AddDate(1, 0, 0) },
 				Location: "London,UK",
 			},
 			OnlyRecommendations: true,
 		}
 	
-		result, _, err = client.EventService.Recommended(params)
-		fmt.Println("Results")
-		fmt.Println(result)
-		fmt.Println("err")
+		result, _, err := client.EventService.Recommended(params)
+	
+		fmt.Println("Error:")
 		fmt.Println(err)
 	
-		fmt.Println("items")
+		fmt.Println("Recommended Events:")
 		for _, item := range result {
 			fmt.Println(item)
 		}
