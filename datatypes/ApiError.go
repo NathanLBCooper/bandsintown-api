@@ -1,17 +1,19 @@
 package datatypes
 
-import(
+import (
 	"fmt"
 )
 
-type ApiError struct {
+// APIError represents the container for errors from the bandsintown API
+type APIError struct {
 	Errors []string `json:"errors"`
 }
 
-func (e ApiError) Error() string {
-	return fmt.Sprintf("response: %v", e.Errors)
+func (apiError APIError) Error() string {
+	return fmt.Sprintf("response: %v", apiError.Errors)
 }
 
-func (apiError *ApiError) HasErrors() (bool) {
+// HasErrors returns whether there are errors in the conatiner
+func (apiError *APIError) HasErrors() bool {
 	return !(apiError == nil || len(apiError.Errors) == 0)
 }

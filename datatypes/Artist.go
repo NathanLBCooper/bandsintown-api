@@ -1,7 +1,9 @@
 package datatypes
 
-type Artist struct{
+// Artist represents core information about an Artist
+// A component of ArtistInfo.go and Event.go
+type Artist struct {
 	Name string `json:"name"`
-	Mbid  string `json:"mbid"`
-	Url string `json:"url"`
+	MbID string `json:"mbid"`
+	URL  string `json:"url"`
 }
