@@ -1,7 +1,7 @@
 # bandsintown-api
 
 Packages:
-> github.com/NathanLBCooper/bandsintown-api/api_client
+> github.com/NathanLBCooper/bandsintown-api/apiclient
 > 
 > github.com/NathanLBCooper/bandsintown-api/datatypes
 
