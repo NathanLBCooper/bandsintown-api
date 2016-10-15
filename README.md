@@ -1,5 +1,7 @@
 # bandsintown-api
 
+**!!! It looks like the bandsintown api v1 has been discontinued (https://www.bandsintown.com/api/1.0/). Nothing to see here then.**
+
 Packages:
 > github.com/NathanLBCooper/bandsintown-api/apiclient
 > 
