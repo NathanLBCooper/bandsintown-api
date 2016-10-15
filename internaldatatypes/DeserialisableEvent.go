@@ -1,7 +1,7 @@
 package internaldatatypes
 
 import (
-	"github.com/NathanLBCooper/bandsintown-api/datatypes"
+	"github.com/NathanLBCooper/bandsintown-api-v1/datatypes"
 )
 
 // DeserialisableEvent in an datatypes.Event.go with CustomDate serialisation

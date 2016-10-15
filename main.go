@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/NathanLBCooper/bandsintown-api/apiclient"
-	"github.com/NathanLBCooper/bandsintown-api/datatypes"
+	"github.com/NathanLBCooper/bandsintown-api-v1/apiclient"
+	"github.com/NathanLBCooper/bandsintown-api-v1/datatypes"
 )
 
 func main() {

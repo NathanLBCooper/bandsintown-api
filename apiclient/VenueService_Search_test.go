@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/NathanLBCooper/bandsintown-api/datatypes"
+	"github.com/NathanLBCooper/bandsintown-api-v1/datatypes"
 )
 
 func TestVenueSearchCanReceiveSearchResponse(test *testing.T) {

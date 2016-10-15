@@ -1,7 +1,7 @@
 package internaldatatypes
 
 import (
-	"github.com/NathanLBCooper/bandsintown-api/datatypes"
+	"github.com/NathanLBCooper/bandsintown-api-v1/datatypes"
 )
 
 // SerialisableEventRecommendedParams is the parameter for the Events Recommmended api call

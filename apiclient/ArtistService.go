@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/NathanLBCooper/bandsintown-api/datatypes"
-	"github.com/NathanLBCooper/bandsintown-api/internaldatatypes"
+	"github.com/NathanLBCooper/bandsintown-api-v1/datatypes"
+	"github.com/NathanLBCooper/bandsintown-api-v1/internaldatatypes"
 
 	"github.com/dghubble/sling"
 )

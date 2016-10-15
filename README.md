@@ -1,14 +1,14 @@
-# bandsintown-api
+# bandsintown-api-v1
 
 **!!! It looks like the bandsintown api v1 has been discontinued (https://www.bandsintown.com/api/1.0/). Nothing to see here then.**
 
 Packages:
-> github.com/NathanLBCooper/bandsintown-api/apiclient
+> github.com/NathanLBCooper/bandsintown-api-v1/apiclient
 > 
-> github.com/NathanLBCooper/bandsintown-api/datatypes
+> github.com/NathanLBCooper/bandsintown-api-v1/datatypes
 
 Installation:
->go get github.com/NathanLBCooper/bandsintown-api
+>go get github.com/NathanLBCooper/bandsintown-api-v1
 
 ### Overview:
 A client library for the Bandsintown Concert API.
@@ -23,8 +23,8 @@ Below is an example usage of requesting [Recommended Events](https://www.bandsin
 		"fmt"
 		"time"
 
-		"github.com/NathanLBCooper/bandsintown-api/apiclient"
-		"github.com/NathanLBCooper/bandsintown-api/datatypes"
+		"github.com/NathanLBCooper/bandsintown-api-v1/apiclient"
+		"github.com/NathanLBCooper/bandsintown-api-v1/datatypes"
 	)
 
 	func main() {
